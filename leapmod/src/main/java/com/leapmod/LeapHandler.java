@@ -12,15 +12,17 @@ import org.lwjgl.glfw.GLFW;
 @OnlyIn(Dist.CLIENT)
 public class LeapHandler {
 
-    private static final double LEAP_HORIZONTAL = 2.8;
-    private static final double LEAP_VERTICAL   = 0.8;
-    private static final int    COOLDOWN_TICKS  = 25;
+    private static final double LEAP_HORIZONTAL   = 2.8;
+    private static final double LEAP_VERTICAL     = 0.8;
+    private static final int    COOLDOWN_TICKS    = 25;
     private static final int    DOUBLE_TAP_WINDOW = 8;
+    private static final int    FALL_PROTECT_TICKS = 60;
 
     private boolean prevCtrlDown = false;
     private int lastCtrlPressTick = -999;
     private int cooldownUntilTick = 0;
     private int currentTick = 0;
+    private int leapedAtTick = -999;
 
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
@@ -33,6 +35,10 @@ public class LeapHandler {
 
         currentTick++;
 
+        if (currentTick - leapedAtTick < FALL_PROTECT_TICKS) {
+            player.fallDistance = 0;
+        }
+
         long window = mc.getWindow().getWindow();
         boolean ctrlDown = GLFW.glfwGetKey(window, GLFW.GLFW_KEY_LEFT_CONTROL) == GLFW.GLFW_PRESS;
 
@@ -43,6 +49,7 @@ public class LeapHandler {
                 if (currentTick >= cooldownUntilTick) {
                     performLeap(player);
                     cooldownUntilTick = currentTick + COOLDOWN_TICKS;
+                    leapedAtTick = currentTick;
                     lastCtrlPressTick = -999;
                 }
             } else {
