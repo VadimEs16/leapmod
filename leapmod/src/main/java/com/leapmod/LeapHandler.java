@@ -33,11 +33,9 @@ public class LeapHandler {
 
         currentTick++;
 
-        // Перевіряємо саме клавішу Ctrl — не стан спринту
         long window = mc.getWindow().getWindow();
         boolean ctrlDown = GLFW.glfwGetKey(window, GLFW.GLFW_KEY_LEFT_CONTROL) == GLFW.GLFW_PRESS;
 
-        // Edge trigger — момент натискання Ctrl
         if (ctrlDown && !prevCtrlDown) {
             int gap = currentTick - lastCtrlPressTick;
 
@@ -56,18 +54,18 @@ public class LeapHandler {
     }
 
     private void performLeap(LocalPlayer player) {
-    float yaw   = (float) Math.toRadians(player.getYRot());
-    float pitch = (float) Math.toRadians(player.getXRot());
+        float yaw   = (float) Math.toRadians(player.getYRot());
+        float pitch = (float) Math.toRadians(player.getXRot());
 
-    // Горизонтальна складова зменшується якщо дивишся вгору
-    double horizScale = Math.cos(pitch) * LEAP_HORIZONTAL;
-    double vertScale  = -Math.sin(pitch) * LEAP_HORIZONTAL;
+        double horizScale = Math.cos(pitch) * LEAP_HORIZONTAL;
+        double vertScale  = -Math.sin(pitch) * LEAP_HORIZONTAL;
 
-    double dx = -Math.sin(yaw) * horizScale;
-    double dy = LEAP_VERTICAL + vertScale;
-    double dz =  Math.cos(yaw) * horizScale;
+        double dx = -Math.sin(yaw) * horizScale;
+        double dy = LEAP_VERTICAL + vertScale;
+        double dz =  Math.cos(yaw) * horizScale;
 
-    Vec3 current = player.getDeltaMovement();
-    player.setDeltaMovement(current.x + dx, dy, current.z + dz);
-    player.hasImpulse = true;
+        Vec3 current = player.getDeltaMovement();
+        player.setDeltaMovement(current.x + dx, dy, current.z + dz);
+        player.hasImpulse = true;
+    }
 }
