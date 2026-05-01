@@ -1,0 +1,23 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+
+[[mods]]
+modId="leapmod"
+version="1.0.0"
+displayName="Leap Mod"
+description="Double-tap Ctrl to leap in camera direction"
+
+[[dependencies.leapmod]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47.4,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.leapmod]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
