@@ -54,20 +54,19 @@ public class LeapHandler {
     }
 
     private void performLeap(LocalPlayer player) {
-    float yaw   = (float) Math.toRadians(player.getYRot());
-    float pitch = (float) Math.toRadians(player.getXRot());
+        float yaw   = (float) Math.toRadians(player.getYRot());
+        float pitch = (float) Math.toRadians(player.getXRot());
 
-    double horizScale = Math.cos(pitch) * LEAP_HORIZONTAL;
-    double vertScale  = -Math.sin(pitch) * LEAP_HORIZONTAL;
+        double horizScale = Math.cos(pitch) * LEAP_HORIZONTAL;
+        double vertScale  = -Math.sin(pitch) * LEAP_HORIZONTAL;
 
-    double dx = -Math.sin(yaw) * horizScale;
-    double dy = LEAP_VERTICAL + vertScale;
-    double dz =  Math.cos(yaw) * horizScale;
+        double dx = -Math.sin(yaw) * horizScale;
+        double dy = LEAP_VERTICAL + vertScale;
+        double dz =  Math.cos(yaw) * horizScale;
 
-    Vec3 current = player.getDeltaMovement();
-    player.setDeltaMovement(current.x + dx, dy, current.z + dz);
-    player.hasImpulse = true;
-
-    // Скидаємо лічильник падіння щоб не було урону
-    player.fallDistance = 0;
+        Vec3 current = player.getDeltaMovement();
+        player.setDeltaMovement(current.x + dx, dy, current.z + dz);
+        player.hasImpulse = true;
+        player.fallDistance = 0;
+    }
 }
